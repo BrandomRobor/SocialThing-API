@@ -6,4 +6,4 @@ const connection = postgres(
 	"postgres://postgres:postgres@0.0.0.0:5432/social-thing-api",
 );
 const database = drizzle(connection);
-export default new Elysia({ name: "database" }).decorate({ database });
+export default new Elysia({ name: "database.config" }).decorate({ database });
