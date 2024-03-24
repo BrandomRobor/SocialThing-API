@@ -13,7 +13,7 @@ export default new Elysia({ name: "auth.service" })
 					password,
 				}: typeof authRegisterRequestBody.static) => {
 					const encryptedPassword = await Bun.password.hash(password);
-					database
+					await database
 						.insert(userModel)
 						.values({ username, password: encryptedPassword });
 				},
