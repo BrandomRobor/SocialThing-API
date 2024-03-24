@@ -3,7 +3,7 @@ import databaseConfig from "../../config/database.config";
 import { userModel } from "../../model/auth/auth.model";
 import type { authRegisterRequestBody } from "../../route/auth/auth.schema";
 import { eq } from "drizzle-orm";
-import jwtConfig from "../../config/jwt.config";
+import jwtConfig, { jwtAuthConfig } from "../../config/jwt.config";
 
 export default new Elysia({ name: "auth.service" })
 	.use(databaseConfig)
@@ -39,10 +39,10 @@ export default new Elysia({ name: "auth.service" })
 						return null;
 					}
 
+          
 					return jwt.sign({
+						...jwtAuthConfig,
 						sub: userData.id.toString(),
-						aud: "auth",
-						iss: "social-thing",
 					});
 				},
 			},
