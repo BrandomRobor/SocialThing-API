@@ -12,9 +12,8 @@
 		}
 	},
 	"features": {
-		"ghcr.io/itsmechlark/features/postgresql:1": {
-			"version": "16"
-		}
+		"ghcr.io/itsmechlark/features/postgresql:1": {},
+		"ghcr.io/devcontainers/features/node:1": {}
 	},
 	"postStartCommand": "service postgresql start"
 }
