@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import authService from "../../service/auth/auth.service";
-import { authRegisterRequestBody } from "./auth.schema";
+import * as authSchema from "./auth.schema";
 import postgres from "postgres";
 
 export default new Elysia({ name: "auth.route" })
@@ -9,35 +9,45 @@ export default new Elysia({ name: "auth.route" })
 		app
 			.post(
 				"/register",
-				async ({ authService, set, body }) => {
+				async ({ authService, body, error, set }) => {
 					try {
 						await authService.createUser(body);
 					} catch (e) {
 						if (e instanceof postgres.PostgresError && e.code === "23505") {
-							set.status = 409;
-							return { message: "Username is already taken" };
+							return error(409, { message: "Username is already taken" });
 						}
 						throw e;
 					}
 
 					set.status = 201;
-					return { message: "User was created successfully" };
+					return { message: "Username created successfully" };
 				},
-				{ body: authRegisterRequestBody },
+				{
+					body: authSchema.authRegisterRequestBody,
+					response: {
+						201: authSchema.authRegisterResponse201,
+						409: authSchema.authRegisterResponse409,
+					},
+				},
 			)
 			.post(
 				"/login",
-				async ({ authService, set, body }) => {
+				async ({ authService, error, body }) => {
 					const userToken = await authService.loginUser(body);
 					if (!userToken) {
-						set.status = 403;
-						return {};
+						return error(401, {
+							message: "Username and password combination is incorrect",
+						});
 					}
 
 					return { token: `Bearer ${userToken}` };
 				},
 				{
-					body: authRegisterRequestBody,
+					body: authSchema.authLoginRequestBody,
+					response: {
+						200: authSchema.authLoginResponse200,
+						401: authSchema.authLoginResponse401,
+					},
 				},
 			),
 	);
