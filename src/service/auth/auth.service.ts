@@ -3,12 +3,12 @@ import databaseConfig from "../../config/database.config";
 import { userModel } from "../../model/auth/auth.model";
 import type { authRegisterRequestBody } from "../../route/auth/auth.schema";
 import { eq } from "drizzle-orm";
-import jwtConfig, { jwtAuthConfig } from "../../config/jwt.config";
+import jwtPlugin from "../../config/jwt.config";
 
 export default new Elysia({ name: "auth.service" })
 	.use(databaseConfig)
-	.use(jwtConfig)
-	.derive({ as: "scoped" }, ({ database, jwt }) => {
+	.use(jwtPlugin)
+	.derive({ as: "scoped" }, ({ database, createJwt }) => {
 		return {
 			authService: {
 				createUser: async ({
@@ -39,11 +39,7 @@ export default new Elysia({ name: "auth.service" })
 						return null;
 					}
 
-          
-					return jwt.sign({
-						...jwtAuthConfig,
-						sub: userData.id.toString(),
-					});
+					return createJwt({ sub: userData.id.toString() });
 				},
 			},
 		};
