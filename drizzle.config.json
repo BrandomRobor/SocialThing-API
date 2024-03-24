@@ -1,6 +1,6 @@
 {
-	"schema": "./src/model/**/*",
-	"out": "./drizzle",
+	"schema": "./src/model/**/*.model.ts",
+	"out": "./src/migration",
 	"driver": "pg",
 	"dbCredentials": {
 		"user": "postgres",
