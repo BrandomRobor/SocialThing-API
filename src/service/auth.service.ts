@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import databaseConfig from "../plugin/database.plugin";
-import { userModel } from "../model/auth.model";
+import { userPublicModel } from "../model/user-public.model";
 import type { authRegisterRequestBody } from "../schema/auth.schema";
 import { eq } from "drizzle-orm";
 import jwtPlugin from "../plugin/jwt.plugin";
@@ -17,7 +17,7 @@ export default new Elysia({ name: "auth.service" })
 				}: typeof authRegisterRequestBody.static) => {
 					const encryptedPassword = await Bun.password.hash(password);
 					await database
-						.insert(userModel)
+						.insert(userPublicModel)
 						.values({ username, password: encryptedPassword });
 				},
 				loginUser: async ({
@@ -25,7 +25,7 @@ export default new Elysia({ name: "auth.service" })
 					password,
 				}: typeof authRegisterRequestBody.static) => {
 					const userData = await database.query.userModel.findFirst({
-						where: eq(userModel.username, username),
+						where: eq(userPublicModel.username, username),
 					});
 					if (!userData) {
 						return null;

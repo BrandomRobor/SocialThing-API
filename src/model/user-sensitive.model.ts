@@ -1,6 +1,6 @@
 
 import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
-import { userModel } from "./auth.model";
+import { userPublicModel } from "./user-public.model";
 import { relations } from "drizzle-orm";
 
 export const userSensitiveModel = pgTable("users_sensitive", {
@@ -8,15 +8,15 @@ export const userSensitiveModel = pgTable("users_sensitive", {
 	password: text("password").notNull(),
 	userId: integer("userId")
 		.notNull()
-		.references(() => userModel.id),
+		.references(() => userPublicModel.id),
 });
 
 export const userSensitiveRelations = relations(
 	userSensitiveModel,
 	({ one }) => ({
-		publicInformation: one(userModel, {
+		publicInformation: one(userPublicModel, {
 			fields: [userSensitiveModel.userId],
-			references: [userModel.id],
+			references: [userPublicModel.id],
 		}),
 	}),
 );
