@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import postService from "../service/post.service";
-import jwtPlugin from "../config/jwt.config";
+import jwtPlugin from "../plugin/jwt.plugin";
 import * as postSchema from "../schema/post.schema";
 
 export default new Elysia({ name: "post.route" })
