@@ -3,7 +3,7 @@ import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { postModel } from "./post.model";
 import { userSensitiveModel } from "./user-sensitive.model";
 
-export const userPublicModel = pgTable("users", {
+export const userPublicModel = pgTable("users_public", {
 	id: serial("id").primaryKey(),
 	username: varchar("username", { length: 25 }).unique().notNull(),
 });
