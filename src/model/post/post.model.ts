@@ -1,5 +1,6 @@
 import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { userModel } from "../auth/auth.model";
+import { relations } from "drizzle-orm";
 
 export const postModel = pgTable("posts", {
 	id: serial("id").primaryKey(),
@@ -8,3 +9,10 @@ export const postModel = pgTable("posts", {
 		.notNull()
 		.references(() => userModel.id),
 });
+
+export const postRelations = relations(postModel, ({ one }) => ({
+	author: one(userModel, {
+		fields: [postModel.userId],
+		references: [userModel.id],
+	}),
+}));
