@@ -10,5 +10,8 @@ export const userPublicModel = pgTable("users", {
 
 export const userRelations = relations(userPublicModel, ({ many, one }) => ({
 	posts: many(postModel),
-	sensitiveInformation: one(userSensitiveModel),
+	sensitiveInformation: one(userSensitiveModel, {
+		fields: [userPublicModel.id],
+		references: [userSensitiveModel.userPublicId],
+	}),
 }));

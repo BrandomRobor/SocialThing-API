@@ -33,7 +33,7 @@ export default new Elysia({ name: "auth.service" })
 						with: { sensitiveInformation: true },
 						where: eq(userPublicModel.username, username),
 					});
-					if (!userData || !userData.sensitiveInformation) {
+					if (!userData) {
 						return null;
 					}
 
