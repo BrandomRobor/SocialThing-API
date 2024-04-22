@@ -11,13 +11,13 @@ export default new Elysia({ name: "post.service" })
 			postService: {
 				createPost: async (
 					{ content }: typeof postPostRequestBody.static,
-					userId: number,
+					userPublicId: number,
 				) => {
-					const [newPost] = await database
+					const [{ newPostId }] = await database
 						.insert(postModel)
-						.values({ content, userId })
-						.returning();
-					return newPost.id;
+						.values({ content, userPublicId })
+						.returning({ newPostId: postModel.id });
+					return newPostId;
 				},
 				getPostById: ({ id }: typeof getPostParams.static) =>
 					database.query.postModel.findFirst({
