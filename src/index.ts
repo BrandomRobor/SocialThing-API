@@ -1,5 +1,6 @@
 import Elysia from "elysia";
 import authRoute from "./route/auth/auth.route";
+import postRoute from "./route/post/post.route";
 
 const port = process.env.PORT || 3000
 const app = new Elysia();
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 app.use(authRoute);
+app.use(postRoute);
 
 app.listen(port);
 
