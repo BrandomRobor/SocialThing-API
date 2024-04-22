@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import databaseConfig from "../../config/database.config";
-import { userModel } from "../../model/auth/auth.model";
+import { userModel } from "../../model/auth.model";
 import type { authRegisterRequestBody } from "../../route/auth/auth.schema";
 import { eq } from "drizzle-orm";
 import jwtPlugin from "../../config/jwt.config";

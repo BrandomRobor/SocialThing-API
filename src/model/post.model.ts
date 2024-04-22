@@ -1,5 +1,5 @@
 import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
-import { userModel } from "../auth/auth.model";
+import { userModel } from "./auth.model";
 import { relations } from "drizzle-orm";
 
 export const postModel = pgTable("posts", {

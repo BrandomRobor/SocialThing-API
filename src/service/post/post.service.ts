@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import databaseConfig from "../../config/database.config";
-import { postModel } from "../../model/post/post.model";
+import { postModel } from "../../model/post.model";
 import type {
 	getPostParams,
 	postPostRequestBody,
