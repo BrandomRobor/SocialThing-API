@@ -7,3 +7,7 @@ export const postPostRequestBody = t.Object({
 		examples: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit."],
 	}),
 });
+
+export const getPostParams = t.Object({
+	id: t.Numeric(),
+});
