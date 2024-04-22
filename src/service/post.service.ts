@@ -9,22 +9,19 @@ export default new Elysia({ name: "post.service" })
 	.derive({ as: "scoped" }, ({ database }) => {
 		return {
 			postService: {
-				createPost: async (
-					{ content }: typeof postPostRequestBody.static,
-					userPublicId: number,
-				) => {
+				createPost: async (content: string, userPublicId: number) => {
 					const [{ newPostId }] = await database
 						.insert(postModel)
 						.values({ content, userPublicId })
 						.returning({ newPostId: postModel.id });
 					return newPostId;
 				},
-				getPostById: ({ id }: typeof getPostParams.static) =>
+				getPostById: (postId: number) =>
 					database.query.postModel.findFirst({
 						with: {
 							author: true,
 						},
-						where: eq(postModel.id, id),
+						where: eq(postModel.id, postId),
 					}),
 			},
 		};

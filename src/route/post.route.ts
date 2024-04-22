@@ -18,8 +18,8 @@ export default new Elysia({ name: "post.route" })
 					})
 					.post(
 						"/",
-						async ({ userId, body, postService }) => {
-							const postId = await postService.createPost(body, userId);
+						async ({ userId, body: { content }, postService }) => {
+							const postId = await postService.createPost(content, userId);
 							return { postId };
 						},
 						{
@@ -29,8 +29,8 @@ export default new Elysia({ name: "post.route" })
 			)
 			.get(
 				"/:id",
-				async ({ params, postService, error }) => {
-					const post = await postService.getPostById(params);
+				async ({ params: { id }, postService, error }) => {
+					const post = await postService.getPostById(id);
 
 					if (!post) {
 						return error(404);

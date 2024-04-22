@@ -9,9 +9,9 @@ export default new Elysia({ name: "auth.route" })
 		app
 			.post(
 				"/register",
-				async ({ authService, body, error, set }) => {
+				async ({ authService, body: { username, password }, error, set }) => {
 					try {
-						await authService.createUser(body);
+						await authService.createUser(username, password);
 					} catch (e) {
 						if (e instanceof postgres.PostgresError && e.code === "23505") {
 							return error(409, { message: "Username is already taken" });
@@ -32,8 +32,8 @@ export default new Elysia({ name: "auth.route" })
 			)
 			.post(
 				"/login",
-				async ({ authService, error, body }) => {
-					const userToken = await authService.loginUser(body);
+				async ({ authService, error, body: { username, password } }) => {
+					const userToken = await authService.loginUser(username, password);
 					if (!userToken) {
 						return error(401, {
 							message: "Username and password combination is incorrect",

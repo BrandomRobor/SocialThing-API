@@ -12,10 +12,7 @@ export default new Elysia({ name: "auth.service" })
 	.derive({ as: "scoped" }, ({ database, createJwt }) => {
 		return {
 			authService: {
-				createUser: async ({
-					username,
-					password,
-				}: typeof authRegisterRequestBody.static) => {
+				createUser: async (username: string, password: string) => {
 					const encryptedPassword = await Bun.password.hash(password);
 					const [{ userPublicId }] = await database
 						.insert(userPublicModel)
@@ -25,10 +22,7 @@ export default new Elysia({ name: "auth.service" })
 						.insert(userSensitiveModel)
 						.values({ password: encryptedPassword, userPublicId });
 				},
-				loginUser: async ({
-					username,
-					password,
-				}: typeof authRegisterRequestBody.static) => {
+				loginUser: async (username: string, password: string) => {
 					const userData = await database.query.userPublicModel.findFirst({
 						with: { sensitiveInformation: true },
 						where: eq(userPublicModel.username, username),
