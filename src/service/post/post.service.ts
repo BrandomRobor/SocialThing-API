@@ -4,7 +4,7 @@ import { postModel } from "../../model/post.model";
 import type {
 	getPostParams,
 	postPostRequestBody,
-} from "../../route/post/post.schema";
+} from "../../schema/post.schema";
 import { eq } from "drizzle-orm";
 
 export default new Elysia({ name: "post.service" })

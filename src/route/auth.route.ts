@@ -1,6 +1,6 @@
 import Elysia from "elysia";
-import authService from "../../service/auth/auth.service";
-import * as authSchema from "./auth.schema";
+import authService from "../service/auth/auth.service";
+import * as authSchema from "../schema/auth.schema";
 import postgres from "postgres";
 
 export default new Elysia({ name: "auth.route" })

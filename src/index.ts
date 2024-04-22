@@ -1,6 +1,6 @@
 import Elysia from "elysia";
-import authRoute from "./route/auth/auth.route";
-import postRoute from "./route/post/post.route";
+import authRoute from "./route/auth.route";
+import postRoute from "./route/post.route";
 
 const port = process.env.PORT || 3000
 const app = new Elysia();

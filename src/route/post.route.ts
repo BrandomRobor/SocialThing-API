@@ -1,7 +1,7 @@
 import Elysia from "elysia";
-import postService from "../../service/post/post.service";
-import jwtPlugin from "../../config/jwt.config";
-import * as postSchema from "./post.schema";
+import postService from "../service/post/post.service";
+import jwtPlugin from "../config/jwt.config";
+import * as postSchema from "../schema/post.schema";
 
 export default new Elysia({ name: "post.route" })
 	.use(postService)
