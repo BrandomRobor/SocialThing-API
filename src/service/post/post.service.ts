@@ -1,7 +1,11 @@
 import Elysia from "elysia";
 import databaseConfig from "../../config/database.config";
 import { postModel } from "../../model/post/post.model";
-import type { postPostRequestBody } from "../../route/post/post.schema";
+import type {
+	getPostParams,
+	postPostRequestBody,
+} from "../../route/post/post.schema";
+import { eq } from "drizzle-orm";
 
 export default new Elysia({ name: "post.service" })
 	.use(databaseConfig)
@@ -18,6 +22,13 @@ export default new Elysia({ name: "post.service" })
 						.returning();
 					return newPost.id;
 				},
+				getPostById: ({ id }: typeof getPostParams.static) =>
+					database.query.postModel.findFirst({
+						with: {
+							author: true,
+						},
+						where: eq(postModel.id, id),
+					}),
 			},
 		};
 	});
