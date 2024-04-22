@@ -8,24 +8,16 @@ export default new Elysia({ name: "post.route" })
 	.group("/post", (app) =>
 		app
 			.guard((app) =>
-				app
-					.use(jwtPlugin)
-					.resolve(({ userId, error }) => {
-						if (!userId || Number.isNaN(userId)) {
-							return error(401);
-						}
-						return { userId };
-					})
-					.post(
-						"/",
-						async ({ userId, body: { content }, postService }) => {
-							const postId = await postService.createPost(content, userId);
-							return { postId };
-						},
-						{
-							body: postSchema.postPostRequestBody,
-						},
-					),
+				app.use(jwtPlugin).post(
+					"/",
+					async ({ userPublicId, body: { content }, postService }) => {
+						const postId = await postService.createPost(content, userPublicId);
+						return { postId };
+					},
+					{
+						body: postSchema.postPostRequestBody,
+					},
+				),
 			)
 			.get(
 				"/:id",

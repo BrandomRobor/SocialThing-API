@@ -16,10 +16,11 @@ export default new Elysia({ name: "jwt.config" })
 			},
 		};
 	})
-	.resolve({ as: "scoped" }, async ({ headers, jwt }) => {
+	.resolve({ as: "scoped" }, async ({ headers, jwt, error }) => {
+		const invalidTokenError = error(401, { message: "Invalid JWT" });
 		const [bearer, token] = (headers.authorization || "").split(" ", 2);
 		if (bearer !== "Bearer") {
-			return { userId: null };
+			return invalidTokenError;
 		}
 
 		const result = await jwt.verify(token);
@@ -29,8 +30,13 @@ export default new Elysia({ name: "jwt.config" })
 			result.aud !== jwtAuthConfig.aud ||
 			result.iss !== jwtAuthConfig.iss
 		) {
-			return { userId: null };
+			return invalidTokenError;
 		}
 
-		return { userId: Number.parseInt(result.sub) };
+		const userPublicId = Number.parseInt(result.sub);
+		if (Number.isNaN(userPublicId)) {
+			return invalidTokenError;
+		}
+
+		return { userPublicId };
 	});
