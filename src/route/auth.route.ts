@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import authService from "../service/auth/auth.service";
+import authService from "../service/auth.service";
 import * as authSchema from "../schema/auth.schema";
 import postgres from "postgres";
 

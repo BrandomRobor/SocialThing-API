@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import postService from "../service/post/post.service";
+import postService from "../service/post.service";
 import jwtPlugin from "../config/jwt.config";
 import * as postSchema from "../schema/post.schema";
 
